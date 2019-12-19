@@ -36,7 +36,7 @@ async function sendmes(){
     let str1 = `春天喜欢花草<br/>夏天喜欢树荫<br/>秋天喜欢落叶<br/>冬天喜欢冰雪<br/>我喜欢你<br/><br/>所以想和你<br/>春天看花草<br/>夏天躲树荫<br/>秋天赏落叶<br/>冬天观冰雪<br/>度过四季`
     let str2 = await get_weather()
     let dt = `${getCurrentTime()} 在一起第${getdaynum()}天`
-    let nickname = '水湄而有桥'//设置要发送的收信人的微信昵称
+    let nickname = '代亚婷'//设置要发送的收信人的微信昵称
     let contact = await bot.Contact.find({name:nickname})
     console.log(str1)
     console.log(str2)
@@ -78,7 +78,7 @@ function get_weather(){
 bot.on('scan',    (qrcode, status) => {scan(qrcode)})
 bot.on('login',   user => { 
     console.log(`User ${user} logined`)
-    var j = schedule.scheduleJob('07 22 * * *', function(){
+    var j = schedule.scheduleJob('09 22 * * *', function(){
         sendmes()
     });
 })
