@@ -38,6 +38,9 @@ async function sendmes(){
     let dt = `${getCurrentTime()} 在一起第${getdaynum()}天`
     let nickname = '水湄而有桥'//设置要发送的收信人的微信昵称
     let contact = await bot.Contact.find({name:nickname})
+    console.log(str1)
+    console.log(str2)
+    console.log(dt)
     let str = `${dt}<br/><br/>林深时见鹿，海蓝时见鲸，梦醒时见你。<br/><br/>${str2}<br/><br/>${str1}<br/><br/>晚安 好梦~`
     // let str = `${dt}<br/><br/>${special}`
     await contact.say(str)
