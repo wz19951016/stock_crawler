@@ -78,7 +78,7 @@ function get_weather(){
 bot.on('scan',    (qrcode, status) => {scan(qrcode)})
 bot.on('login',   user => { 
     console.log(`User ${user} logined`)
-    var j = schedule.scheduleJob('05 22 * * *', function(){
+    var j = schedule.scheduleJob('07 22 * * *', function(){
         sendmes()
     });
 })
