@@ -9,10 +9,11 @@ let result = []
 
 async function getStock(){
     const browser = await puppeteer.launch({
-        defaultViewport:{
-            width: 1920,
-            height: 10000
-        }
+        headless: false,   //有浏览器界面启动
+        args: [            //启动 Chrome 的参数，详见上文中的介绍
+            '–no-sandbox',
+            '--window-size=1280,960'
+        ],
     });
     const page = await browser.newPage();
     const read_data = await readfile()
