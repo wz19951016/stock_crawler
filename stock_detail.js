@@ -19,7 +19,7 @@ async function getStock(){
         }).catch(s=>{
             console.log('资源请求超时')
         })
-        await page.waitForSelector('#footer')
+        // await page.waitForSelector('#footer')
         console.log('准备开始')
         let back = await page.evaluate(()=>{
             let obj = {}
