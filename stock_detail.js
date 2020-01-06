@@ -8,13 +8,7 @@ const path = require('path')
 let result = []
 
 async function getStock(){
-    const browser = await puppeteer.launch({
-        headless: false,   //有浏览器界面启动
-        args: [            //启动 Chrome 的参数，详见上文中的介绍
-            '–no-sandbox',
-            '--window-size=1280,960'
-        ],
-    });
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
     const read_data = await readfile()
     result = read_data
