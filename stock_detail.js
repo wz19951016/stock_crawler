@@ -19,16 +19,20 @@ async function getStock(){
     result = read_data
     for(let item of result){
         console.log(`正在爬取${item.name}详细数据`)
-        await page.goto(`http://stockpage.10jqka.com.cn/${item.code}/`)
-        await page.waitForSelector('.sub_cont_5')
+        await page.goto(`http://stockpage.10jqka.com.cn/${item.code}/`,{timeout : 5000}).then(s=>{
+            console.log('资源请求成功')
+        }).catch(s=>{
+            console.log('资源请求超时')
+        })
+        await page.waitForSelector('#footer')
         console.log('准备开始')
         let back = await page.evaluate(()=>{
             let obj = {}
             let company = document.querySelectorAll('#company_info table tbody tr')
-            obj.zy = company[1].querySelector('td')[1].querySelector('span').innerText
-            obj.desc = company[6].querySelector('td')[0].querySelector('span').innerText
-            obj.score = document.querySelector('.analyze-num').innerText
-            obj.jg_comment = document.querySelector('.jg-tips').innerText
+            obj.zy = company&&company.length>0 ? company[1].querySelectorAll('td')[1].querySelector('span').innerText : '暂无主营介绍'
+            obj.desc = company&&company.length>0 ? company[6].querySelectorAll('td')[0].querySelector('span').innerText : '暂无详细介绍'
+            obj.score = document.querySelector('.analyze-num') ? document.querySelector('.analyze-num').innerText : '暂无机构评分'
+            obj.jg_comment =document.querySelector('.jg-tips') ? document.querySelector('.jg-tips').innerText : '暂无买入评级'
             return obj
         })
         console.log(back)
