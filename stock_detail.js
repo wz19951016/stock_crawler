@@ -19,7 +19,7 @@ async function getStock(){
         }).catch(s=>{
             console.log('资源请求超时')
         })
-        // await page.waitForSelector('#footer')
+        await page.waitForSelector('.m_header')
         console.log('准备开始')
         let back = await page.evaluate(()=>{
             let obj = {}
@@ -30,9 +30,10 @@ async function getStock(){
             obj.jg_comment =document.querySelector('.jg-tips') ? document.querySelector('.jg-tips').innerText : '暂无买入评级'
             return obj
         })
-        console.log(back)
         item = {...item,...back}
-        sleep()
+        console.log(item)
+        page.goto("about:blank");
+        await sleep()
     }
     outfile(result)
 }
