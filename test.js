@@ -172,7 +172,10 @@ const footer = [
     return '/'
   },
   (cellValue, columnIndex, rowIndex, rowData, inputData) => {
-    return '/'
+    let num = rowData.reduce((init,cur)=>{
+      return init + (cur[2].split('#')[0]*cur[3].split('#')[0])
+    },0)
+    return `${num.toFixed(2)}`
   },
   (cellValue, columnIndex, rowIndex, rowData, inputData) => {
     return '/'
