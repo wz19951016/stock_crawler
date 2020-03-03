@@ -230,11 +230,11 @@ async function f(){
       console.log(`页面${Number(index)+1}资源超时`)
     })
   }
-  pages = pages.map((item,index)=>{
-    return getmes(item,result[index])
-  })
   while(true){
-    let time_data = await Promise.all(pages)
+    let pages_mes = pages.map((item,index)=>{
+      return getmes(item,result[index])
+    })
+    let time_data = await Promise.all(pages_mes)
     time_data = time_data.reduce((init,cur)=>{
       return {...init,[cur.code]:{
         price : cur.price,
@@ -305,6 +305,7 @@ async function getmes(page,code){
     return obj
   })
   back.code = code
+  // console.log(back)
   return back
 }
 
