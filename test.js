@@ -202,7 +202,13 @@ const footer = [
     return `${num.toFixed(2)}`
   },
   (cellValue, columnIndex, rowIndex, rowData, inputData) => {
-    return '/'
+    let cb = rowData.reduce((init,cur)=>{
+      return init + (cur[2].split('#')[0]*cur[3].split('#')[0])
+    },0)
+    let yl = rowData.reduce((init,cur)=>{
+      return init + (cur[8].split('#')[0] - 0)
+    },0)
+    return `${((yl/cb)*100).toFixed(2)}%`
   }
 ]
 
@@ -211,7 +217,7 @@ const footer = [
 
 async function f(){
   let data = await readfile()
-  let result = [], pages = [], rows = []
+  let result = [], pages = [], rows = [], pages_arr = []
   data.forEach(item=>{
     item.stock.forEach(item2=>{
       !result.includes(item2.code) ? result.push(item2.code) : ''
@@ -230,11 +236,12 @@ async function f(){
       console.log(`页面${Number(index)+1}资源超时`)
     })
   }
-  pages = pages.map((item,index)=>{
-    return getmes(item,result[index])
-  })
+  console.log(pages.length)
   while(true){
-    let time_data = await Promise.all(pages)
+    pages_arr = pages.map((item,index)=>{
+      return getmes(item,result[index])
+    })
+    let time_data = await Promise.all(pages_arr)
     time_data = time_data.reduce((init,cur)=>{
       return {...init,[cur.code]:{
         price : cur.price,
@@ -286,12 +293,19 @@ async function f(){
       color: "white",
       truncate: "..."
     })
+    // console.log(t1.render())
+    // console.log(t2.render())
+    let data1 = t1.render()
+    let data2 = t2.render()
+    console.log(typeof data1)
+    console.log(typeof data2)
     process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H')
     process.stdout.write('王忠持仓:')
-    process.stdout.write(`\r${t1.render()}`)
+    process.stdout.write(`\r${data1}`)
     process.stdout.write('\n代亚婷持仓:')
-    process.stdout.write(`\r${t2.render()}`)
+    process.stdout.write(`\r${data2}`)
     await sleep()
+
   }
 }
 async function getmes(page,code){
