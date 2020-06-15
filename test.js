@@ -229,19 +229,18 @@ async function f(){
     pages.push(page)
   }
   for(let index in result){
-    let url = result[index].split('')[0] == 6 ? `https://xueqiu.com/S/SH${result[index]}` : `https://xueqiu.com/S/SZ${result[index]}`
+    let url = result[index].split('')[0] == 6 || result[index].split('')[0] == 5 ? `https://xueqiu.com/S/SH${result[index]}` : `https://xueqiu.com/S/SZ${result[index]}`
     await pages[index].goto(url).then(s=>{
       console.log(`页面${Number(index)+1}打开成功`)
     }).catch(s=>{
       console.log(`页面${Number(index)+1}资源超时`)
     })
   }
-  console.log(pages.length)
   while(true){
-    pages_arr = pages.map((item,index)=>{
+    let pages_mes = pages.map((item,index)=>{
       return getmes(item,result[index])
     })
-    let time_data = await Promise.all(pages_arr)
+    let time_data = await Promise.all(pages_mes)
     time_data = time_data.reduce((init,cur)=>{
       return {...init,[cur.code]:{
         price : cur.price,
@@ -319,6 +318,7 @@ async function getmes(page,code){
     return obj
   })
   back.code = code
+  // console.log(back)
   return back
 }
 
